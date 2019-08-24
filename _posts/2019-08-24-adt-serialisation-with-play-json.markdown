@@ -89,11 +89,11 @@ import play.api.libs.json.Json
 val json =
   """
     | {
-        "type": "rectangle",
-        "x": 2.0,
-        "y": 1.0,
-        "width": 15.0,
-        "height": 10.0
+    |   "type": "rectangle",
+    |   "x": 2.0,
+    |   "y": 1.0,
+    |   "width": 15.0,
+    |   "height": 10.0
     | }
   """.stripMargin
 Json.parse(json).as[Rectangle]
@@ -146,14 +146,14 @@ Now we can (de)serialise an array of `Shape`s.
 val json =
   """
     |[
-    |	 {
+    |  {
     |    "type": "rectangle",
     |    "x": 2.0,
     |    "y": 1.0,
     |    "width": 15.0,
     |    "height": 10.0
     |  },
-    |	 {
+    |  {
     |    "type": "ellipse",
     |    "x": 5.0,
     |    "y": -4.0,
