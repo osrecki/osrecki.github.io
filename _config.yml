@@ -23,6 +23,11 @@ email:
 description:
 baseurl: ""
 url: "http://kodin.me"
+repository: osrecki/osrecki.github.io
+
+google_analytics:
+  enabled: true
+  tracking_id: UA-146428250-1
 
 # Build settings
 plugins:
