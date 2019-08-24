@@ -1,7 +1,8 @@
 ---
 layout: post
-title:  "ADT serialisation with Play JSON"
+title:  ADT serialisation with Play JSON
 date:   2019-08-24 11:00:00 +0200
+author: Dinko Osrecki
 ---
 Algebraic data type is a type formed by combining **product** types and **sum** types. Product type combines multiple
 values of different types into one. It is called “tuple”, “record”, “struct”, “class”.  Sum type represents a value

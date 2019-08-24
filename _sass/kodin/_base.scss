@@ -1,0 +1,62 @@
+/*
+ * Site
+ */
+.kodin-header {
+  margin-top: 15px;
+}
+
+.kodin-brand {
+  &, &:visited, &:hover, &:focus, &:active {
+    color: black;
+    font-size: 1.8rem;
+    font-weight: 600;
+    text-decoration: none;
+  }
+
+  height: 40px;
+
+  > span {
+    font-size: 1rem;
+    font-weight: 400;
+    color: #b3b3b3;
+    margin-left: -5px;
+  }
+}
+
+.kodin-navigation {
+  text-align: right;
+}
+
+/*
+ * Blog
+ */
+.kodin-post-header {
+  border-bottom: 1px dashed #CCCCFF;
+  margin-bottom: 15px;
+}
+
+/*
+ * Code formatting
+ */
+pre,
+code {
+  font-family: 'Inconsolata', monospace;
+  border: 1px dashed #E3E3E3;
+  border-radius: 3px;
+  background-color: #F7F7F7;
+}
+
+code {
+  padding: 1px 5px;
+}
+
+pre {
+  padding: 8px 12px;
+  overflow-x: auto;
+
+  > code {
+    border: 0;
+    padding-right: 0;
+    padding-left: 0;
+  }
+}
