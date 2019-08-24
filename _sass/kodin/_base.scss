@@ -31,8 +31,26 @@
  * Blog
  */
 .kodin-post-header {
+  padding-bottom: 1rem;
   border-bottom: 1px dashed #CCCCFF;
-  margin-bottom: 15px;
+  margin-bottom: 1rem;
+}
+
+.kodin-post-tags {
+  text-align: right;
+
+  @media (max-width: 599px) {
+    text-align: left;
+    margin-top: 0.5rem;
+  }
+
+  & > span {
+    margin-left: 4px;
+
+    &:first-child {
+      margin-left: 0;
+    }
+  }
 }
 
 /*

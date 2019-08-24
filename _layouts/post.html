@@ -1,21 +1,6 @@
 ---
 layout: default
 ---
-<article class="ray-running-text">
-    <header class="kodin-post-header">
-        <h1>{{ page.title | escape }}</h1>
-        <p>
-            <time datetime="{{ page.date | date_to_xmlschema }}">
-                {{ page.date | date: "%b %-d, %Y" }}
-            </time>
+{% assign post = page %}
+{% include post.html %}
 
-            {%- if page.author -%}
-            • <span>{{ page.author | escape }}</span>
-            {%- endif -%}
-        </p>
-    </header>
-
-    <div>
-        {{ content }}
-    </div>
-</article>
