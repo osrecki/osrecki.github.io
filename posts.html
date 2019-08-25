@@ -1,0 +1,14 @@
+---
+layout: page
+title: All Posts
+permalink: /posts/
+---
+
+{%- for post in site.posts -%}
+    <ul>
+        <li>
+            <a href="{{ post.url | relative_url }}">{{ post.title | escape }}</a>
+            [{{ post.date | date: "%b %-d, %Y" }}]
+        </li>
+    </ul>
+{%- endfor -%}
