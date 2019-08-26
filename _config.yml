@@ -29,6 +29,10 @@ google_analytics:
   enabled: true
   tracking_id: UA-146428250-1
 
+# Local development
+host: kodin.me.local
+port: 7654
+
 # Build settings
 plugins:
   - jekyll-feed
