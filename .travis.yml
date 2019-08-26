@@ -1,0 +1,23 @@
+language: ruby
+rvm:
+  - 2.6.3
+branches:
+  only:
+    - source
+cache: bundler
+install:
+  - bundle install --jobs=3 --retry=3 --deployment
+script:
+  - bundle exec jekyll build
+deploy:
+  provider: pages
+  github_token: $GITHUB_TOKEN
+  name: Dinko Osrecki
+  email: dinko.osrecki@gmail.com
+  fqdn: kodin.me
+  on:
+    branch: source
+  target_branch: master
+  local_dir: dist
+  skip_cleanup: true
+  verbose: true
