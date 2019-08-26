@@ -1,6 +1,12 @@
 /*
  * Site
  */
+html, body {
+  min-height: 100%;
+  min-height: 100vh;
+  overflow: auto;
+}
+
 body {
   padding-top: $header-height;
 }
