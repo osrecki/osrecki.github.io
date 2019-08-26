@@ -1,8 +1,20 @@
 /*
  * Site
  */
+body {
+  padding-top: $header-height;
+}
+
 .kodin-header {
-  margin-top: 15px;
+  position: fixed;
+  top: 0;
+  z-index: 9999;
+  background: #fff;
+  border-bottom: 1px solid #e3e3e3;
+
+  & > .ray-grid {
+    height: $header-height;
+  }
 }
 
 .kodin-brand {
@@ -23,7 +35,7 @@
   }
 }
 
-.kodin-navigation {
+.kodin-top-nav {
   text-align: right;
 }
 
