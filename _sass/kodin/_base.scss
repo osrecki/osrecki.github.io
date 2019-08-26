@@ -14,6 +14,30 @@ body {
 
   & > .ray-grid {
     height: $header-height;
+
+    & > .ray-grid__cell {
+      display: flex;
+      align-items: center;
+
+      &:last-child {
+        justify-content: flex-end;
+      }
+    }
+  }
+}
+
+.kodin-hamburger {
+  display: none;
+  margin-right: 0.5rem;
+  user-select: none;
+  outline: none;
+
+  &, &:visited, &:hover, &:focus, &:active {
+    text-decoration: none;
+  }
+
+  @media (max-width: 599px) {
+    display: inline-block;
   }
 }
 
@@ -25,8 +49,6 @@ body {
     text-decoration: none;
   }
 
-  height: 40px;
-
   > span {
     font-size: 1rem;
     font-weight: 400;
@@ -36,7 +58,31 @@ body {
 }
 
 .kodin-top-nav {
-  text-align: right;
+  @media (max-width: 599px) {
+    display: none !important;
+  }
+}
+
+.kodin-side-nav {
+  position: fixed;
+  left: -9999px;
+  height: 100vh;
+  width: 200px;
+  background-color: #fff;
+  border-right: 1px solid #e3e3e3;
+  z-index: 999;
+  transition: left .15s ease;
+  padding: 2rem 1rem;
+
+  li {
+    margin: 1rem 0;
+  }
+
+  &.kodin-side-nav--open {
+    @media (max-width: 599px) {
+      left: 0;
+    }
+  }
 }
 
 .ray-running-text {

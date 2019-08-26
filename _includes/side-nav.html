@@ -1,0 +1,13 @@
+<div class="kodin-side-nav">
+    <ul>
+        {%- for page in site.pages -%}
+            {%- if page.title -%}
+                <li>
+                    <a href="{{ page.url | relative_url }}">
+                        {{ page.title | escape }}
+                    </a>
+                </li>
+            {%- endif -%}
+        {%- endfor -%}
+    </ul>
+</div>

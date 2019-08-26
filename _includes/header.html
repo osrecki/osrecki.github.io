@@ -1,12 +1,13 @@
 <header class="ray-page-container ray-page-container--justify-center kodin-header">
     <div class="ray-grid">
-        <div class="ray-grid__cell ray-grid__cell--span-2-desktop ray-grid__cell--span-3-tablet ray-grid__cell--span-2-phone ray-grid__cell--align-middle">
+        <div class="ray-grid__cell ray-grid__cell--span-2-desktop ray-grid__cell--span-3-tablet ray-grid__cell--span-4-phone">
+            <button class="kodin-hamburger ray-link">☰</button>
             <a href="{{ "/" | relative_url }}" class="kodin-brand">
                 Kodin
                 <span>.me</span>
             </a>
         </div>
-        <div class="ray-grid__cell ray-grid__cell--span-5-desktop ray-grid__cell--span-5-tablet ray-grid__cell--span-2-phone kodin-top-nav ray-grid__cell--align-middle">
+        <div class="ray-grid__cell ray-grid__cell--span-5-desktop ray-grid__cell--span-5-tablet kodin-top-nav">
             {%- for page in site.pages -%}
                 {%- if page.title -%}
                     <a class="ray-button ray-button--secondary ray-button--compact" href="{{ page.url | relative_url }}">{{ page.title | escape }}</a>
