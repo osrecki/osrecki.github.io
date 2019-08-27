@@ -1,0 +1,53 @@
+@import '../../global/mixins/exports';
+@import '../../global/variables';
+@import '../../global/typography';
+
+@include exports('ray-breadcrumb') {
+  .#{$ray-class-prefix}breadcrumbs {
+    font-family: $ray-font-stack-mono;
+    text-transform: uppercase;
+    font-size: 0.75rem;
+    white-space: nowrap;
+    overflow-x: auto;
+    display: flex;
+  }
+
+  .#{$ray-class-prefix}breadcrumb {
+    color: $ray-color-text-medium;
+    display: flex;
+    line-height: 1.5;
+
+    &:not(:last-child) {
+      margin-right: 0.5rem;
+
+      [dir='rtl'] & {
+        margin-right: 0;
+        margin-left: 0.5rem;
+      }
+
+      &::after {
+        margin-left: 0.5rem;
+        content: '➝';
+        font-size: 1.25rem;
+        position: relative;
+        top: -6px;
+        line-height: 1.5;
+
+        [dir='rtl'] & {
+          margin-right: 0.5rem;
+          margin-left: 0;
+          transform: scaleX(-1);
+        }
+      }
+    }
+
+    a {
+      color: inherit;
+
+      &:hover,
+      &:focus {
+        text-decoration: underline;
+      }
+    }
+  }
+}

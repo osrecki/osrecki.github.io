@@ -1,0 +1,85 @@
+@import './functions';
+@import './colors';
+@import './spacing/spacing';
+
+$ray-class-prefix: 'ray-';
+$ray-font-stack-sans-serif: 'Apercu', Avenir, -apple-system, BlinkMacSystemFont,
+  'Helvetica Neue', Helvetica, 'Calibri', 'Roboto', Arial, sans-serif;
+$ray-font-stack-mono: 'Apercu Mono', SFMono-Regular, Menlo, Monaco, Consolas,
+  'Liberation Mono', 'Courier New', monospace;
+$ray-base-font-size: rem(16px);
+$ray-base-line-height: 1.618;
+$ray-accessibility-class: 'js-ray-enable-accessibility';
+
+$ray-assign-typography-styles-natively: true !default;
+$ray-link-color: $ray-color-blue-50;
+
+$ray-css-reset: true !default;
+$ray-css-normalize: true !default;
+
+$ray-border-radius: 0.25rem;
+$ray-border-width: rem(1px);
+$ray-box-shadow-focus-state: 0 0 0 rem(3px)
+  transparentize($ray-color-blue-50, 0.75);
+
+$ray-color-text-light: $ray-color-gray-30;
+$ray-color-text-medium: $ray-color-gray-60;
+$ray-color-text-dark: $ray-color-black;
+$ray-field-v-spacing: rem(20px);
+$ray-field-v-spacing-compact: rem(12px);
+$ray-field-h-spacing: rem(12px);
+$ray-field-label-size: 1rem;
+$ray-field-label-size-focus: rem(12px);
+$ray-field-height: rem(56px);
+$ray-field-height-compact: rem(40px);
+$ray-field-font-size: rem(16px);
+$ray-field-line-height: rem(28px);
+$ray-field-icon-width: 1rem;
+
+$ray-button-v-spacing: rem(20px) - $ray-border-width;
+$ray-button-v-spacing-compact: rem(12px) - $ray-border-width;
+$ray-button-h-spacing: rem(24px) - $ray-border-width;
+$ray-button-h-spacing-compact: rem(12px) - $ray-border-width;
+
+$ray-radio-pill-v-spacing: rem(15px) - $ray-border-width;
+$ray-radio-pill-v-spacing-compact: rem(12px) - $ray-border-width;
+$ray-radio-pill-h-spacing: rem(12px) - $ray-border-width;
+$ray-radio-pill-h-spacing-compact: rem(8px) - $ray-border-width;
+
+$ray-layout-grid-breakpoints: (
+  desktop: 1195px,
+  tablet: 600px,
+  phone: 0px
+) !default;
+
+$ray-layout-grid-columns: (
+  desktop: 12,
+  tablet: 8,
+  phone: 4
+) !default;
+
+$ray-layout-grid-default-margin: (
+  desktop: 60px,
+  tablet: 48px,
+  phone: 16px
+) !default;
+
+$ray-layout-grid-default-gutter: (
+  desktop: 24px,
+  tablet: 24px,
+  phone: 16px
+) !default;
+
+$ray-layout-grid-column-width: (
+  desktop: 72px,
+  tablet: 72px,
+  phone: 72px
+) !default;
+
+$ray-layout-grid-max-width: (
+  desktop: 1440px,
+  tablet: 100%,
+  phone: 100%
+) !default;
+
+$ray-layout-grid-default-column-span: 4 !default;

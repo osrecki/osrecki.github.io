@@ -1,0 +1,348 @@
+@import './mixins/exports';
+
+@mixin ray-display-1 {
+  font-size: 4rem;
+  font-weight: 600;
+  line-height: 5rem;
+  margin-bottom: 2rem;
+}
+
+@mixin ray-display-2 {
+  font-size: 3rem;
+  font-weight: 600;
+  line-height: 4rem;
+  margin-bottom: 2rem;
+}
+
+@mixin ray-h1 {
+  font-size: 2.5rem;
+  font-weight: 600;
+  line-height: 3.5rem;
+  margin-bottom: 1rem;
+}
+
+@mixin ray-h2 {
+  font-size: 2rem;
+  font-weight: 600;
+  line-height: 2.75rem;
+  margin-bottom: 1rem;
+}
+
+@mixin ray-h3 {
+  font-size: 1.5rem;
+  font-weight: 600;
+  line-height: 2.25rem;
+  margin-bottom: 1rem;
+}
+
+@mixin ray-h4 {
+  font-size: 1.25rem;
+  font-weight: 600;
+  line-height: 2rem;
+  margin-bottom: 0.5rem;
+}
+
+@mixin ray-h5 {
+  font-size: 1rem;
+  font-weight: 600;
+  line-height: 1.75rem;
+  margin-bottom: 0.5rem;
+}
+
+@mixin ray-h6 {
+  font-size: 0.875rem;
+  font-weight: 600;
+  line-height: 1.5rem;
+  margin-bottom: 0.5rem;
+}
+
+@mixin ray-body {
+  font-size: 1rem;
+  font-weight: 400;
+  line-height: 1.75rem;
+  margin-bottom: 1rem;
+}
+
+@mixin ray-body-large {
+  font-size: 1.25rem;
+  font-weight: 400;
+  line-height: 2rem;
+  margin-bottom: 1rem;
+}
+
+@mixin ray-body-small {
+  font-size: 0.875rem;
+  font-weight: 400;
+  line-height: 1.5rem;
+  margin-bottom: 0.75rem;
+}
+
+@mixin ray-body-x-small {
+  font-size: 0.75rem;
+  font-weight: 400;
+  line-height: 1.25rem;
+  margin-bottom: 0.5rem;
+}
+
+@include exports('ray-typography') {
+  .#{$ray-class-prefix}text--display-1 {
+    @include ray-h1;
+
+    @media (min-width: map-get($ray-layout-grid-breakpoints, desktop)) {
+      @include ray-display-1;
+    }
+  }
+
+  .#{$ray-class-prefix}text--display-2 {
+    @include ray-h1;
+
+    @media (min-width: map-get($ray-layout-grid-breakpoints, desktop)) {
+      @include ray-display-2;
+    }
+  }
+
+  .#{$ray-class-prefix}text--h1,
+  .#{$ray-class-prefix}text--h2,
+  .#{$ray-class-prefix}text--h3,
+  .#{$ray-class-prefix}text--h4,
+  .#{$ray-class-prefix}text--h5,
+  .#{$ray-class-prefix}text--h6 {
+    font-weight: bold;
+    margin: 0;
+  }
+
+  .#{$ray-class-prefix}text--h1 {
+    @include ray-h2;
+
+    @media (min-width: map-get($ray-layout-grid-breakpoints, tablet)) {
+      @include ray-h1;
+    }
+  }
+
+  .#{$ray-class-prefix}text--h2 {
+    @include ray-h3;
+
+    @media (min-width: map-get($ray-layout-grid-breakpoints, tablet)) {
+      @include ray-h2;
+    }
+  }
+
+  .#{$ray-class-prefix}text--h3 {
+    @include ray-h4;
+
+    @media (min-width: map-get($ray-layout-grid-breakpoints, tablet)) {
+      @include ray-h3;
+    }
+  }
+
+  .#{$ray-class-prefix}text--h4 {
+    @include ray-h4;
+  }
+
+  .#{$ray-class-prefix}text--h5 {
+    @include ray-h5;
+  }
+
+  .#{$ray-class-prefix}text--h6 {
+    @include ray-h6;
+  }
+
+  .#{$ray-class-prefix}text--body-large {
+    @include ray-body-large;
+  }
+
+  .#{$ray-class-prefix}text--body {
+    @include ray-body;
+  }
+
+  .#{$ray-class-prefix}text--body-small {
+    @include ray-body-small;
+  }
+
+  .#{$ray-class-prefix}text--body-x-small {
+    @include ray-body-x-small;
+  }
+
+  .#{$ray-class-prefix}text--monospace {
+    font-family: $ray-font-stack-mono;
+    font-weight: 400;
+  }
+
+  .#{$ray-class-prefix}blockquote {
+    padding: $ray-spacing-lg;
+    margin: $ray-spacing-lg 0;
+    background-color: $ray-color-gray-03;
+    border-radius: $ray-border-radius;
+    border: 1px solid $ray-color-gray-10;
+    color: $ray-color-text-dark;
+  }
+
+  .#{$ray-class-prefix}blockquote__footer {
+    @include ray-body-small;
+
+    font-weight: 400;
+    font-family: $ray-font-stack-mono;
+    color: $ray-color-text-medium;
+    margin: 0;
+
+    &::before {
+      content: '\2014\00A0';
+    }
+  }
+
+  .#{$ray-class-prefix}list {
+    margin: 0.75rem 0;
+    padding-left: 2rem;
+
+    // nested lists
+    ul,
+    ol {
+      margin: 0 0 0.25rem 0;
+    }
+  }
+
+  ul.#{$ray-class-prefix}list {
+    list-style-type: circle;
+  }
+
+  ol.#{$ray-class-prefix}list {
+    list-style-type: decimal;
+  }
+
+  /**
+    * Prevent `sub` and `sup` elements from affecting the line height in
+    * all browsers.
+    */
+  sub,
+  sup {
+    font-size: 75%;
+    line-height: 0;
+    position: relative;
+    vertical-align: baseline;
+  }
+
+  sub {
+    bottom: -0.25em;
+  }
+
+  em {
+    font-style: italic;
+  }
+
+  sup {
+    top: -0.5em;
+  }
+
+  a,
+  .#{$ray-class-prefix}link {
+    color: $ray-link-color;
+    text-decoration: none;
+    appearance: none;
+    background: none;
+    border: 0;
+    padding: 0;
+    cursor: pointer;
+
+    &:hover {
+      text-decoration: underline;
+    }
+
+    &:focus {
+      text-decoration: underline;
+    }
+  }
+
+  .#{$ray-class-prefix}running-text {
+    h1,
+    h2,
+    h3,
+    h4,
+    h5,
+    h6 {
+      margin-top: 3rem;
+    }
+
+    h1 {
+      @extend .#{$ray-class-prefix}text--h1;
+    }
+
+    h2 {
+      @extend .#{$ray-class-prefix}text--h2;
+    }
+
+    h3 {
+      @extend .#{$ray-class-prefix}text--h3;
+    }
+
+    h4 {
+      @extend .#{$ray-class-prefix}text--h4;
+    }
+
+    h5 {
+      @extend .#{$ray-class-prefix}text--h5;
+    }
+
+    h6 {
+      @extend .#{$ray-class-prefix}text--h6;
+    }
+
+    p {
+      @extend .#{$ray-class-prefix}text--body;
+    }
+
+    small {
+      @extend .#{$ray-class-prefix}text--body-small;
+    }
+
+    blockquote {
+      @extend .#{$ray-class-prefix}blockquote;
+    }
+
+    ul,
+    ol {
+      @extend .#{$ray-class-prefix}list;
+    }
+
+    i {
+      font-style: italic;
+    }    
+  }
+
+  @if global-variable-exists(ray-assign-typography-styles-natively) ==
+    false or
+    $ray-assign-typography-styles-natively ==
+    true
+  {
+    h1 {
+      @extend .#{$ray-class-prefix}text--h1;
+    }
+
+    h2 {
+      @extend .#{$ray-class-prefix}text--h2;
+    }
+
+    h3 {
+      @extend .#{$ray-class-prefix}text--h3;
+    }
+
+    h4 {
+      @extend .#{$ray-class-prefix}text--h4;
+    }
+
+    h5 {
+      @extend .#{$ray-class-prefix}text--h5;
+    }
+
+    h6 {
+      @extend .#{$ray-class-prefix}text--h6;
+    }
+
+    blockquote {
+      @extend .#{$ray-class-prefix}blockquote;
+    }
+
+    small {
+      @extend .#{$ray-class-prefix}text--body-small;
+    }
+  }
+}

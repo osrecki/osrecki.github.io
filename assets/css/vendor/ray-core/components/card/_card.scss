@@ -1,0 +1,162 @@
+@import '../../global/mixins/exports';
+@import '../../global/variables';
+@import '../../global/typography';
+
+@include exports('ray-card') {
+  $card-padding: 1.5rem 1rem;
+  $card-border-color: $ray-color-gray-10;
+  $card-border-default: $ray-border-width solid $card-border-color;
+
+  .#{$ray-class-prefix}card {
+    width: 100%;
+    border-radius: $ray-border-radius;
+    background-color: $ray-color-white;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+
+    &--link {
+      cursor: pointer;
+      color: $ray-color-text-dark;
+
+      &:hover,
+      &:focus {
+        text-decoration: none;
+      }
+
+      &:focus {
+        box-shadow: $ray-box-shadow-focus-state;
+        outline: 0;
+      }
+
+      .#{$ray-class-prefix}card__heading {
+        color: $ray-color-blue-50;
+      }
+
+      &:hover {
+        .#{$ray-class-prefix}card__heading {
+          text-decoration: underline;
+        }
+      }
+    }
+
+    $ray-image-ratio-map-half: (
+      4by3: calc(50% / (4 / 3)),
+      3by4: calc(50% / (3 / 4)),
+      1by1: calc(50% / 1),
+      16by9: calc(50% / (16 / 9)),
+      cinema: calc(50% / 2.4)
+    );
+
+    &--row {
+      @media (min-width: map-get($ray-layout-grid-breakpoints, desktop)) {
+        @each $ratio, $value in $ray-image-ratio-map-half {
+          .#{$ray-class-prefix}image--#{$ratio} {
+            padding-bottom: $value;
+          }
+        }
+
+        @each $ratio, $value in $ray-image-ratio-map-half {
+          .#{$ray-class-prefix}bg--#{$ratio} {
+            padding-bottom: $value;
+          }
+        }
+
+        .#{$ray-class-prefix}card__content {
+          padding: 2.5rem;
+
+          &:first-child {
+            border: $card-border-default;
+            border-right: 0;
+            border-radius: $ray-border-radius 0 0 $ray-border-radius;
+
+            [dir='rtl'] & {
+              border-right: $card-border-default;
+              border-left: 0;
+              border-radius: 0 $ray-border-radius $ray-border-radius 0;
+            }
+          }
+
+          &:last-child {
+            border-top: $card-border-default;
+            border-radius: 0 $ray-border-radius $ray-border-radius 0;
+            border-left: 0;
+
+            [dir='rtl'] & {
+              border-radius: $ray-border-radius 0 0 $ray-border-radius;
+              border-left: $card-border-default;
+              border-right: 0;
+            }
+          }
+        }
+
+        flex-direction: row;
+
+        .#{$ray-class-prefix}card__image,
+        .#{$ray-class-prefix}card__content {
+          width: 50%;
+        }
+
+        .#{$ray-class-prefix}card__heading {
+          @include ray-h2;
+          font-weight: 400;
+        }
+
+        .#{$ray-class-prefix}card__image {
+          &:first-child {
+            border-radius: $ray-border-radius 0 0 $ray-border-radius;
+          }
+
+          &:last-child {
+            border-radius: 0 $ray-border-radius $ray-border-radius 0;
+          }
+
+          [dir='rtl'] & {
+            &:first-child {
+              border-radius: 0 $ray-border-radius $ray-border-radius 0;
+            }
+
+            &:last-child {
+              border-radius: $ray-border-radius 0 0 $ray-border-radius;
+            }
+          }
+        }
+      }
+    }
+
+    &__content {
+      flex-grow: 1;
+      padding: $card-padding;
+      border-left: $card-border-default;
+      border-right: $card-border-default;
+
+      &:first-child {
+        border-top: $card-border-default;
+        border-top-left-radius: $ray-border-radius;
+        border-top-right-radius: $ray-border-radius;
+      }
+
+      &:last-child {
+        border-bottom: $card-border-default;
+        border-bottom-left-radius: $ray-border-radius;
+        border-bottom-right-radius: $ray-border-radius;
+      }
+    }
+
+    &__image {
+      &:first-child {
+        border-bottom-left-radius: 0;
+        border-bottom-right-radius: 0;
+      }
+
+      &:last-child {
+        border-top-left-radius: 0;
+        border-top-right-radius: 0;
+      }
+    }
+  }
+
+  .#{$ray-class-prefix}card__heading {
+    @extend .ray-text--body-large;
+  }
+}

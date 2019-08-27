@@ -7,12 +7,12 @@
 
     <link href="https://fonts.googleapis.com/css?family=Inconsolata&display=swap" rel="stylesheet">
 
-    <link rel="stylesheet" href="{{ "/assets/css/ray-core.min.css" | relative_url }}">
-    <link rel="stylesheet" href="{{ "/assets/css/style.css" | relative_url }}">
+    {% asset vendor.scss %}
+    {% asset kodin.scss %}
 
     {%- feed_meta -%}
 
     {%- include google-analytics.html -%}
 
-    <script src="{{ "/assets/js/hamburger.js" | relative_url }}" defer></script>
+    {% asset hamburger.js defer %}
 </head>

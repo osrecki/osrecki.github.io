@@ -1,0 +1,362 @@
+@import '../variables';
+@import '../mixins/exports';
+
+@mixin label {
+  @include no-select;
+
+  font-family: $ray-font-stack-mono;
+  font-size: $ray-field-label-size;
+  line-height: 1;
+  font-weight: 400;
+  display: block;
+  position: absolute;
+  top: 0;
+  left: 0;
+  padding-left: $ray-field-h-spacing;
+  padding-right: $ray-field-h-spacing;
+  padding-top: $ray-field-v-spacing;
+  color: $ray-color-text-medium;
+  height: 100%;
+  width: 100%;
+  max-width: calc(100% - 12px);
+
+  // handle truncating label
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+
+  [dir='rtl'] & {
+    left: auto;
+    right: 0;
+  }
+}
+
+@mixin label--active {
+  font-size: $ray-field-label-size-focus;
+  padding-top: 0;
+  pointer-events: none;
+
+  top: -1 * $ray-field-h-spacing / 2;
+  left: $ray-field-h-spacing / 2;
+  padding-left: $ray-field-h-spacing / 2;
+  padding-right: $ray-field-h-spacing / 2;
+  width: auto;
+  height: auto;
+  background: transparent;
+
+  [dir='rtl'] & {
+    left: auto;
+    right: $ray-field-h-spacing / 2;
+  }
+
+  &::before {
+    content: '';
+    width: calc(100% + #{$ray-field-h-spacing} / 2);
+    height: 0.1875rem;
+    background-color: $ray-color-white;
+    position: absolute;
+    top: 0.25rem;
+    left: -1 * $ray-field-h-spacing / 2;
+    z-index: -1;
+
+    [dir='rtl'] & {
+      left: auto;
+      right: -1 * $ray-field-h-spacing / 2;
+    }
+  }
+}
+
+@mixin text-field--has-value {
+  .#{$ray-class-prefix}text-field__label,
+  .#{$ray-class-prefix}text-area__label {
+    @include label--active;
+  }
+
+  .#{$ray-class-prefix}text-field__input,
+  .#{$ray-class-prefix}text-area__input {
+    &::placeholder {
+      color: $ray-color-text-light !important;
+    }
+  }
+
+  &.#{$ray-class-prefix}text-field--compact,
+  &.#{$ray-class-prefix}text-area--compact {
+    .#{$ray-class-prefix}text-field__label,
+    .#{$ray-class-prefix}text-area__label {
+      padding-top: 0;
+    }
+  }
+}
+
+@mixin text-field--focus {
+  border-color: $ray-color-blue-50;
+
+  .#{$ray-class-prefix}text-field__label,
+  .#{$ray-class-prefix}text-area__label {
+    color: $ray-color-blue-50;
+  }
+}
+
+@mixin compact-label--active {
+  + .#{$ray-class-prefix}text-field__label,
+  + .#{$ray-class-prefix}text-area__label {
+    padding-top: 0;
+    pointer-events: none;
+  }
+}
+
+@mixin input--active {
+  + .#{$ray-class-prefix}text-field__label,
+  + .#{$ray-class-prefix}text-area__label {
+    @include label--active;
+  }
+}
+
+@mixin placeholder {
+  &::-webkit-input-placeholder {
+    @content;
+  }
+
+  &:-moz-placeholder {
+    @content;
+  }
+
+  &::-moz-placeholder {
+    @content;
+  }
+
+  &:-ms-input-placeholder {
+    @content;
+  }
+}
+
+@keyframes wipe-in {
+  from {
+    height: 100%;
+  }
+
+  50% {
+    opacity: 1;
+  }
+
+  to {
+    height: $ray-border-radius;
+    opacity: 0;
+  }
+}
+
+@mixin wipe-element {
+  content: '';
+  height: 100%;
+  background-color: #fff;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  overflow: hidden;
+  z-index: 1;
+  pointer-events: none;
+}
+
+@mixin wipe-animate {
+  animation: wipe-in 0.25s;
+  animation-fill-mode: forwards;
+  animation-delay: 0.075s;
+}
+
+@mixin icon {
+  width: 1rem;
+  height: 1rem;
+  position: absolute;
+  line-height: 1;
+  text-align: center;
+  fill: currentColor;
+  // optical correction, subtract 1px
+  top: $ray-field-v-spacing - rem(1px);
+
+  path {
+    fill: currentColor;
+  }
+}
+@mixin icon-support($class) {
+  // --with-icon-left is DEPRECATED in favor of --with-icon-start, and will
+  // be removed in a future release of Ray. Use of --with-icon-left may
+  // result in confusing behavior for RTL language sensitive layouts.
+  &--with-icon-left,
+  &--with-icon-start {
+    .#{$ray-class-prefix}#{$class}__input,
+    .#{$ray-class-prefix}#{$class}__label {
+      padding-left: calc(
+        #{$ray-field-h-spacing} * 2 + #{$ray-field-icon-width}
+      );
+
+      [dir='rtl'] & {
+        padding-left: auto;
+        padding-right: calc(
+          #{$ray-field-h-spacing} * 2 + #{$ray-field-icon-width}
+        );
+      }
+    }
+  }
+
+  // --with-icon-right is DEPRECATED in favor of --with-icon-end, and will
+  // be removed in a future release of Ray. Use of --with-icon-right may
+  // result in confusing behavior for RTL language sensitive layouts.
+  &--with-icon-right,
+  &--with-icon-end {
+    .#{$ray-class-prefix}#{$class}__input,
+    .#{$ray-class-prefix}#{$class}__label {
+      padding-right: calc(
+        #{$ray-field-h-spacing} * 2 + #{$ray-field-icon-width}
+      );
+
+      [dir='rtl'] & {
+        padding-right: auto;
+        padding-left: calc(
+          #{$ray-field-h-spacing} * 2 + #{$ray-field-icon-width}
+        );
+      }
+    }
+  }
+
+  // --icon-left/right are DEPRECATED in favor of --icon-start/end,
+  // and will be removed in a future release of Ray. Use of --icon-left/right may
+  // result in confusing behavior for RTL language sensitive layouts.
+  &--disabled {
+    .#{$ray-class-prefix}#{$class}__icon--left,
+    .#{$ray-class-prefix}#{$class}__icon--right,
+    .#{$ray-class-prefix}#{$class}__icon--start,
+    .#{$ray-class-prefix}#{$class}__icon--end {
+      opacity: 0.4;
+    }
+  }
+
+  &--with-icon-left,
+  &--with-icon-right,
+  &--with-icon-start,
+  &--with-icon-end {
+    fill: $ray-color-text-medium;
+
+    path {
+      fill: $ray-color-text-medium;
+    }
+  }
+
+  // __icon--left is DEPRECATED in favor of __icon--start, and will
+  // be removed in a future release of Ray. Use of __icon--left may
+  // result in confusing behavior for RTL language sensitive layouts.
+  &__icon--left,
+  &__icon--start {
+    @include icon;
+    left: $ray-field-h-spacing;
+
+    [dir='rtl'] & {
+      left: auto;
+      right: $ray-field-h-spacing;
+    }
+  }
+
+  // __icon--left is DEPRECATED in favor of __icon--start, and will
+  // be removed in a future release of Ray. Use of __icon--left may
+  // result in confusing behavior for RTL language sensitive layouts.
+  &__icon--right,
+  &__icon--end {
+    @include icon;
+    right: $ray-field-h-spacing;
+
+    [dir='rtl'] & {
+      right: auto;
+      left: $ray-field-h-spacing;
+    }
+  }
+
+  &--compact {
+    .#{$ray-class-prefix}#{$class}__icon--left,
+    .#{$ray-class-prefix}#{$class}__icon--right,
+    .#{$ray-class-prefix}#{$class}__icon--start,
+    .#{$ray-class-prefix}#{$class}__icon--end {
+      top: $ray-field-v-spacing-compact;
+    }
+  }
+
+  &--active {
+    .#{$ray-class-prefix}#{$class}__icon--left,
+    .#{$ray-class-prefix}#{$class}__icon--right,
+    .#{$ray-class-prefix}#{$class}__icon--start,
+    .#{$ray-class-prefix}#{$class}__icon--end {
+      fill: $ray-color-blue-50;
+
+      path {
+        fill: $ray-color-blue-50;
+      }
+    }
+  }
+
+  &--disabled {
+    .#{$ray-class-prefix}#{$class}__icon--left,
+    .#{$ray-class-prefix}#{$class}__icon--right,
+    .#{$ray-class-prefix}#{$class}__icon--start,
+    .#{$ray-class-prefix}#{$class}__icon--end {
+      fill: rgba($ray-color-gray-60, 0.4);
+
+      path {
+        fill: rgba($ray-color-gray-60, 0.4);
+      }
+    }
+  }
+}
+
+@mixin required-support($class) {
+  &--required {
+    .#{$ray-class-prefix}#{$class}__label {
+      &::after {
+        content: '*';
+        padding-left: 3px;
+
+        [dir='rtl'] & {
+          padding-left: auto;
+          padding-right: 3px;
+        }
+      }
+    }
+  }
+}
+
+@mixin prepend-support($class) {
+  &--disabled {
+    .#{$ray-class-prefix}#{$class}__prepend {
+      opacity: 0.4;
+    }
+  }
+
+  &__prepend {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    line-height: 1;
+    text-align: center;
+    position: relative;
+    // using 69px to match the current
+    // flag dropdown selector on wework.com
+    min-width: rem(69px);
+    background-color: $ray-color-gray-03;
+    border-right: 1px solid $ray-color-gray-10;
+    border-radius: $ray-border-radius 0 0 $ray-border-radius;
+
+    [dir='rtl'] & {
+      border-radius: 0 $ray-border-radius $ray-border-radius 0;
+    }
+  }
+}
+
+@mixin required-support($class) {
+  &--required {
+    .#{$ray-class-prefix}#{$class}__label {
+      &::after {
+        content: '*';
+        padding-left: 3px;
+      }
+    }
+  }
+}

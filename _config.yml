@@ -35,6 +35,11 @@ host: kodin.me.local
 port: 7654
 
 # Build settings
+assets:
+  caching:
+    enabled: false
+sass:
+  sass_dir: ./assets/css
 destination: dist
 timezone: Europe/Zagreb
 plugins:

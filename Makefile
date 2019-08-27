@@ -1,6 +1,12 @@
-.PHONY: up post
+.PHONY: clean build up post
 
-up:
+clean:
+	bundle exec jekyll clean
+
+build: clean
+	bundle exec jekyll build
+
+up: clean
 	bundle exec jekyll serve
 
 post:

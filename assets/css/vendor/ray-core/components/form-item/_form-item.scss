@@ -1,0 +1,34 @@
+@import '../../global/variables';
+@import '../../global/mixins/exports';
+
+@include exports('ray-form-item') {
+  .#{$ray-class-prefix}form-item {
+    margin-bottom: 1.5rem;
+
+    &__hint {
+      display: block;
+      color: $ray-color-text-medium;
+      font-weight: 400;
+      font-size: 0.75rem;
+      margin-left: $ray-field-h-spacing;
+      line-height: 1.25rem;
+      width: 100%;
+      text-overflow: ellipsis;
+      overflow: hidden;
+      white-space: nowrap;
+
+      [dir='rtl'] & {
+        margin-left: 0;
+        margin-right: $ray-field-h-spacing;
+      }
+
+      &--success {
+        color: $ray-color-green-70;
+      }
+
+      &--error {
+        color: $ray-color-red-50;
+      }
+    }
+  }
+}

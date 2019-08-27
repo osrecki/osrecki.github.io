@@ -1,0 +1,353 @@
+@import '../../global/variables';
+@import '../../global/mixins/exports';
+@import '../../global/mixins/breakpoints';
+
+@include exports('ray-button') {
+  $ray-button-border-radius: $ray-border-radius;
+
+  .#{$ray-class-prefix}button {
+    font-family: inherit;
+    font-size: 1rem;
+    font-weight: 400;
+    line-height: 1;
+    display: inline-block;
+    border: $ray-border-width solid $ray-color-blue-50;
+    border-radius: $ray-button-border-radius;
+    cursor: pointer;
+    padding: $ray-button-v-spacing $ray-button-h-spacing;
+    white-space: nowrap;
+    text-align: center;
+    vertical-align: bottom;
+
+    &:hover,
+    &:focus {
+      text-decoration: none;
+      outline: 0;
+    }
+
+    &:disabled {
+      cursor: not-allowed;
+    }
+
+    &:not(:last-of-type) {
+      margin-right: 1rem;
+
+      [dir='rtl'] & {
+        margin-right: 0;
+        margin-left: 1rem;
+      }
+    }
+
+    // --pull-left is DEPRECATED in favor of --pull-start, and will be
+    // removed in a future release of Ray. Use of pull-left may result
+    // in confusing behavior for RTL language sensitive layouts.
+    &--pull-left,
+    &--pull-start {
+      margin-left: -($ray-button-h-spacing + $ray-border-width);
+
+      [dir='rtl'] & {
+        margin-left: 0;
+        margin-right: -($ray-button-h-spacing + $ray-border-width);
+      }
+    }
+
+    // --pull-right is DEPRECATED in favor of --pull-end, and will be
+    // removed in a future release of Ray. Use of pull-right may result
+    // in confusing behavior for RTL language sensitive layouts.
+    &--pull-right,
+    &--pull-end {
+      margin-right: -($ray-button-h-spacing + $ray-border-width);
+
+      [dir='rtl'] & {
+        margin-right: 0;
+        margin-left: -($ray-button-h-spacing + $ray-border-width);
+      }
+    }
+  }
+
+  .#{$ray-class-prefix}button--primary {
+    background-color: $ray-color-blue-50;
+    color: $ray-color-white;
+
+    @include ray-breakpoint(desktop) {
+      &:hover {
+        background-color: $ray-color-blue-60;
+        border-color: $ray-color-blue-60;
+      }
+    }
+
+    .#{$ray-accessibility-class} &:focus {
+      box-shadow: $ray-box-shadow-focus-state;
+    }
+
+    &:active {
+      background-color: $ray-color-blue-70;
+      border-color: $ray-color-blue-70;
+    }
+
+    &[disabled] {
+      background-color: $ray-color-blue-20;
+      border-color: $ray-color-blue-20;
+      color: rgba($ray-color-white, 0.4);
+    }
+
+    &.#{$ray-class-prefix}button--dark {
+      background-color: $ray-color-white;
+      border-color: $ray-color-white;
+      color: $ray-color-blue-50;
+
+      @include ray-breakpoint(desktop) {
+        &:hover {
+          background-color: $ray-color-gray-10;
+          border-color: $ray-color-gray-10;
+        }
+      }
+
+      .#{$ray-accessibility-class} &:focus {
+        box-shadow: 0 0 0 3px transparentize($ray-color-white, 0.75);
+      }
+
+      &:active {
+        background-color: $ray-color-gray-30;
+        border-color: $ray-color-gray-30;
+      }
+
+      &[disabled] {
+        background-color: $ray-color-gray-50;
+        border-color: $ray-color-gray-50;
+        color: rgba($ray-color-blue-50, 0.4);
+      }
+    }
+
+    &.#{$ray-class-prefix}button--danger {
+      background-color: $ray-color-red-50;
+      border-color: $ray-color-red-50;
+
+      @include ray-breakpoint(desktop) {
+        &:hover {
+          background-color: $ray-color-red-60;
+          border-color: $ray-color-red-60;
+        }
+      }
+
+      .#{$ray-accessibility-class} &:focus {
+        box-shadow: 0 0 0 3px transparentize($ray-color-red-50, 0.75);
+      }
+
+      &:active {
+        background-color: $ray-color-red-70;
+        border-color: $ray-color-red-70;
+      }
+
+      &[disabled] {
+        background-color: $ray-color-red-20;
+        border-color: $ray-color-red-20;
+        color: rgba($ray-color-white, 0.4);
+      }
+    }
+  }
+
+  .#{$ray-class-prefix}button--secondary {
+    color: $ray-color-blue-50;
+    background-color: $ray-color-white;
+
+    @include ray-breakpoint(desktop) {
+      &:hover {
+        background-color: $ray-color-blue-10;
+      }
+    }
+
+    .#{$ray-accessibility-class} &:focus {
+      box-shadow: $ray-box-shadow-focus-state;
+    }
+
+    &:active {
+      background-color: $ray-color-blue-20;
+    }
+
+    &.#{$ray-class-prefix}button--dark {
+      background-color: transparent;
+      border-color: $ray-color-white;
+      color: $ray-color-white;
+
+      @include ray-breakpoint(desktop) {
+        &:hover {
+          background-color: rgba($ray-color-white, 0.1);
+          border-color: $ray-color-gray-10;
+        }
+      }
+
+      .#{$ray-accessibility-class} &:focus {
+        box-shadow: 0 0 0 3px transparentize($ray-color-white, 0.75);
+      }
+
+      &:active {
+        background-color: rgba($ray-color-white, 0.2);
+      }
+
+      &[disabled] {
+        background-color: transparent;
+        color: rgba($ray-color-white, 0.6);
+        border-color: rgba($ray-color-white, 0.6);
+      }
+    }
+
+    &.#{$ray-class-prefix}button--danger {
+      border-color: $ray-color-red-50;
+      color: $ray-color-red-50;
+
+      @include ray-breakpoint(desktop) {
+        &:hover {
+          background-color: $ray-color-red-10;
+        }
+      }
+
+      .#{$ray-accessibility-class} &:focus {
+        box-shadow: 0 0 0 3px transparentize($ray-color-red-50, 0.75);
+      }
+
+      &:active {
+        background-color: $ray-color-red-20;
+      }
+
+      &[disabled] {
+        background-color: $ray-color-white;
+        border-color: rgba($ray-color-red-50, 0.4);
+        color: rgba($ray-color-red-50, 0.4);
+      }
+    }
+
+    &[disabled] {
+      background-color: $ray-color-white;
+      border-color: rgba($ray-color-blue-50, 0.4);
+      color: rgba($ray-color-blue-50, 0.4);
+    }
+  }
+
+  .#{$ray-class-prefix}button--compact {
+    padding: $ray-button-v-spacing-compact $ray-button-h-spacing-compact;
+    line-height: 1;
+    height: auto;
+
+    // button--pull-left is DEPRECATED in favor of button--pull-start, and will
+    // be removed in a future release of Ray. Use of button--pull-left may
+    // result in confusing behavior for RTL language sensitive layouts.
+    &.#{$ray-class-prefix}button--pull-left,
+    &.#{$ray-class-prefix}button--pull-start {
+      margin-left: -($ray-button-h-spacing-compact + $ray-border-width);
+
+      [dir='rtl'] & {
+        margin-left: inherit;
+        margin-right: -($ray-button-h-spacing-compact + $ray-border-width);
+      }
+    }
+
+    // button--pull-right is DEPRECATED in favor of button--pull-end, and will
+    // be removed in a future release of Ray. Use of button--pull-right may
+    // result in confusing behavior for RTL language sensitive layouts.
+    &.#{$ray-class-prefix}button--pull-right,
+    &.#{$ray-class-prefix}button--pull-end {
+      margin-right: -($ray-button-h-spacing-compact + $ray-border-width);
+
+      [dir='rtl'] & {
+        margin-right: inherit;
+        margin-left: -($ray-button-h-spacing-compact + $ray-border-width);
+      }
+    }
+  }
+
+  .#{$ray-class-prefix}button--tertiary {
+    color: $ray-color-blue-50;
+    background-color: transparent;
+    border-color: transparent;
+
+    @include ray-breakpoint(desktop) {
+      &:hover {
+        background-color: $ray-color-gray-03;
+      }
+    }
+
+    .#{$ray-accessibility-class} &:focus {
+      box-shadow: $ray-box-shadow-focus-state;
+    }
+
+    &:active {
+      background-color: $ray-color-blue-10;
+    }
+
+    &.#{$ray-class-prefix}button--dark {
+      color: $ray-color-white;
+
+      @include ray-breakpoint(desktop) {
+        &:hover {
+          background-color: hsl(0, 0, 20%);
+          border-color: hsl(0, 0, 20%);
+        }
+      }
+
+      .#{$ray-accessibility-class} &:focus {
+        box-shadow: 0 0 0 3px transparentize($ray-color-white, 0.75);
+      }
+
+      &:active {
+        background-color: rgba($ray-color-white, 0.2);
+      }
+
+      &[disabled] {
+        background-color: transparent;
+        border-color: transparent;
+        color: rgba($ray-color-white, 0.6);
+      }
+    }
+
+    &.#{$ray-class-prefix}button--danger {
+      color: $ray-color-red-50;
+
+      .#{$ray-accessibility-class} &:focus {
+        box-shadow: 0 0 0 3px transparentize($ray-color-red-50, 0.75);
+      }
+
+      &:active {
+        background-color: $ray-color-red-10;
+      }
+
+      &[disabled] {
+        color: rgba($ray-color-red-50, 0.4);
+      }
+    }
+
+    &[disabled] {
+      background-color: transparent;
+      color: rgba($ray-color-blue-50, 0.4);
+    }
+  }
+}
+
+.#{$ray-class-prefix}button__icon {
+  display: inline-block;
+  vertical-align: middle;
+  width: 1rem;
+  height: 1rem;
+  color: currentColor;
+  position: relative;
+  top: -1px;
+
+  &:last-child {
+    margin-left: 0.5rem;
+
+    [dir='rtl'] & {
+      margin-left: 0;
+      margin-right: 0.5rem;
+    }
+  }
+
+  svg {
+    width: 100%;
+  }
+
+  svg,
+  path {
+    color: currentColor;
+    fill: currentColor;
+  }
+}

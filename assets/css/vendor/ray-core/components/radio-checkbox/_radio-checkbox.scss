@@ -1,0 +1,185 @@
+@import '../../global/mixins/exports';
+@import '../../global/variables';
+
+@include exports('ray-radio-checkbox') {
+  $ray-radio-checkbox-border-width: $ray-border-width;
+  $ray-radio-checkbox-size: rem(16px);
+  $ray-radio-checkbox-top-offset: (
+      $ray-field-line-height - $ray-radio-checkbox-size
+    ) / 2;
+
+  .#{$ray-class-prefix}radio,
+  .#{$ray-class-prefix}checkbox {
+    @include no-select;
+    display: flex;
+    position: relative;
+
+    &__label {
+      line-height: $ray-field-line-height;
+      cursor: pointer;
+      display: flex;
+      position: relative;
+
+      &::before {
+        box-sizing: border-box;
+        content: '';
+        background-color: $ray-color-white;
+        border: $ray-radio-checkbox-border-width solid $ray-color-black;
+        min-width: $ray-radio-checkbox-size;
+        width: $ray-radio-checkbox-size;
+        height: $ray-radio-checkbox-size;
+        position: relative;
+        display: inline-block;
+        margin-right: 1rem;
+        // centers the input with the first line of text in the label
+        top: $ray-radio-checkbox-top-offset;
+
+        [dir='rtl'] & {
+          margin-right: 0;
+          margin-left: 1rem;
+        }
+      }
+
+      &:focus {
+        outline: none;
+
+        &::before {
+          outline: 0;
+          box-shadow: $ray-box-shadow-focus-state;
+        }
+      }
+    }
+
+    &__input {
+      appearance: none;
+      width: 0;
+      height: 0;
+      opacity: 0;
+
+      &:focus {
+        + .#{$ray-class-prefix}checkbox__label,
+        + .#{$ray-class-prefix}radio__label {
+          &::before {
+            outline: 0;
+            box-shadow: $ray-box-shadow-focus-state;
+          }
+        }
+      }
+
+      &:checked + .#{$ray-class-prefix}checkbox__label,
+      &:checked + .#{$ray-class-prefix}radio__label {
+        &::before {
+          border-color: $ray-color-blue-50;
+          background-color: $ray-color-blue-50;
+        }
+
+        &:hover + .#{$ray-class-prefix}checkbox__label,
+        &:hover + .#{$ray-class-prefix}radio__label {
+          &::before {
+            border-color: $ray-color-blue-70;
+            background-color: $ray-color-blue-70;
+          }
+        }
+      }
+
+      &:not(:checked) {
+        &:hover + .#{$ray-class-prefix}checkbox__label,
+        &:hover + .#{$ray-class-prefix}radio__label {
+          &::before {
+            border-color: $ray-color-blue-50;
+            background-color: $ray-color-blue-10;
+          }
+        }
+      }
+
+      &[disabled] {
+        &:hover + .#{$ray-class-prefix}checkbox__label,
+        &:hover + .#{$ray-class-prefix}radio__label {
+          &::before {
+            background-color: $ray-color-white !important;
+          }
+        }
+
+        + .#{$ray-class-prefix}radio__label,
+        + .#{$ray-class-prefix}checkbox__label {
+          cursor: not-allowed;
+          color: $ray-color-gray-30 !important;
+
+          &::before {
+            border-color: $ray-color-gray-30 !important;
+          }
+        }
+      }
+    }
+  }
+
+  /**
+   * Radio
+   */
+  .#{$ray-class-prefix}radio__label {
+    position: relative;
+
+    &:focus {
+      outline: 0;
+      box-shadow: $ray-box-shadow-focus-state;
+    }
+
+    &::before {
+      border-radius: 50%;
+    }
+  }
+
+  /**
+   * Checkbox
+   */
+  .#{$ray-class-prefix}checkbox__label::before {
+    border-radius: $ray-border-radius;
+  }
+
+  .#{$ray-class-prefix}checkbox__input:checked
+    + .#{$ray-class-prefix}checkbox__label::after {
+    content: '';
+    border-right: 2px solid white;
+    border-bottom: 2px solid white;
+    transform: rotate(31deg);
+    position: absolute;
+    left: 5px;
+    top: 8px;
+    width: 3px;
+    height: 9px;
+
+    [dir='rtl'] & {
+      left: auto;
+      right: 5px;
+    }
+  }
+
+  /**
+   * Radio
+   */
+  .#{$ray-class-prefix}radio__input:checked
+    + .#{$ray-class-prefix}radio__label {
+    &::before {
+      background-color: $ray-color-white !important;
+    }
+
+    $ray-radio-dot-size: 0.5rem;
+
+    &::after {
+      content: '';
+      width: $ray-radio-dot-size;
+      height: $ray-radio-dot-size;
+      background-color: $ray-color-blue-50;
+      border-radius: $ray-radio-dot-size;
+      position: absolute;
+      top: $ray-radio-checkbox-top-offset + ($ray-radio-checkbox-size / 2) -
+        ($ray-radio-dot-size / 2);
+      left: ($ray-radio-checkbox-size / 2) - ($ray-radio-dot-size / 2);
+
+      [dir='rtl'] & {
+        left: auto;
+        right: ($ray-radio-checkbox-size / 2) - ($ray-radio-dot-size / 2);
+      }
+    }
+  }
+}
