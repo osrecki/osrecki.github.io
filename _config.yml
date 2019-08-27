@@ -44,6 +44,11 @@ destination: dist
 timezone: Europe/Zagreb
 plugins:
   - jekyll-feed
+exclude:
+  - vendor
+  - tools
+  - Makefile
+  - README.md
 
 # Exclude from processing.
 # The following items will not be processed, by default.
