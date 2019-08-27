@@ -10,7 +10,9 @@ var toggle = function (event) {
 };
 
 var close = function (event) {
-  if (event.target.closest('.kodin-side-nav')) return;
+  if (event.target.closest('.kodin-side-nav') || event.target.closest('.kodin-hamburger')) {
+    return;
+  }
 
   sideNav.classList.remove(SIDE_NAV_OPEN_CLASS_NAME);
 };
