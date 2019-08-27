@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/osrecki/osrecki.github.io.svg?branch=source)](https://travis-ci.org/osrecki/osrecki.github.io)
+
 #### Prerequisites
 ```sh
 echo "127.0.0.1 kodin.me.local" | sudo tee -a /etc/hosts
