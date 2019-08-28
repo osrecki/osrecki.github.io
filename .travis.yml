@@ -5,6 +5,8 @@ branches:
   only:
     - source
 cache: bundler
+env:
+  JEKYLL_ENV=production
 install:
   - bundle install --jobs=3 --retry=3 --deployment
 script:
