@@ -1,0 +1,461 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1"><!-- Begin Jekyll SEO tag v2.6.1 -->
+<title>Comparing SemVer strings in Scala | Kodin.me</title>
+<meta name="generator" content="Jekyll v3.8.6" />
+<meta property="og:title" content="Comparing SemVer strings in Scala" />
+<meta name="author" content="Dinko Osrecki" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="We are given a JSON list of mobile devices, each of which has an ID, OS version and application version." />
+<meta property="og:description" content="We are given a JSON list of mobile devices, each of which has an ID, OS version and application version." />
+<link rel="canonical" href="https://kodin.me/2019/08/25/comparing-semver-strings-in-scala.html" />
+<meta property="og:url" content="https://kodin.me/2019/08/25/comparing-semver-strings-in-scala.html" />
+<meta property="og:site_name" content="Kodin.me" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2019-08-25T18:55:25+02:00" />
+<script type="application/ld+json">
+{"description":"We are given a JSON list of mobile devices, each of which has an ID, OS version and application version.","@type":"BlogPosting","headline":"Comparing SemVer strings in Scala","url":"https://kodin.me/2019/08/25/comparing-semver-strings-in-scala.html","dateModified":"2019-08-25T18:55:25+02:00","datePublished":"2019-08-25T18:55:25+02:00","mainEntityOfPage":{"@type":"WebPage","@id":"https://kodin.me/2019/08/25/comparing-semver-strings-in-scala.html"},"author":{"@type":"Person","name":"Dinko Osrecki"},"@context":"https://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+<link rel="icon" href="/favicon.ico" type="image/x-icon"/>
+    <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon"/>
+    <link href="https://fonts.googleapis.com/css?family=Inconsolata&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" type="text/css" integrity="sha256-xXvhARLH+UPwzIo4QbkSAEJjhxzLlz9Zt9uzy7RDxQE=" crossorigin="anonymous" href="/assets/vendor-c57be10112c7f943f0cc8a3841b912004263871ccb973f59b7dbb3cbb443c501.css">
+    <link rel="stylesheet" type="text/css" integrity="sha256-nQCfrhA22XpyRPv2lqucNQQ/uyp63P8B4HkaZOqDQfc=" crossorigin="anonymous" href="/assets/kodin-9d009fae1036d97a7244fbf696ab9c35043fbb2a7adcff01e0791a64ea8341f7.css"><link type="application/atom+xml" rel="alternate" href="https://kodin.me/feed.xml" title="Kodin.me" /><script async src="https://www.googletagmanager.com/gtag/js?id=UA-146428250-1"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'UA-146428250-1');
+    </script><script defer integrity="sha256-zkXZQ83aIDdTFIh6ZGeK+D1dNeoyEA6wVQ6nbI9PFAw=" crossorigin="anonymous" src="/assets/hamburger-ce45d943cdda20375314887a64678af83d5d35ea32100eb0550ea76c8f4f140c.js" type="text/javascript"></script>
+    <script integrity="sha256-YQUgZyojM73bJamueVRdtZVN8BIgReoXUZ+u5oCn4UI=" crossorigin="anonymous" src="/assets/svg.min-610520672a2333bddb25a9ae79545db5954df0122045ea17519faee680a7e142.js" type="text/javascript"></script>
+    <script integrity="sha256-JVtklRX+zS99MFAQnuAecYuFB+zz11WOFNdNx5qkyqM=" crossorigin="anonymous" src="/assets/rx.lite.min-255b649515fecd2f7d3050109ee01e718b8507ecf3d7558e14d74dc79aa4caa3.js" type="text/javascript"></script>
+</head>
+<body><header class="ray-page-container ray-page-container--justify-center kodin-header">
+    <div class="ray-grid">
+        <div class="ray-grid__cell ray-grid__cell--span-4-desktop ray-grid__cell--span-5-tablet ray-grid__cell--span-4-phone">
+            <button class="kodin-hamburger ray-link">☰</button>
+            <a href="/" class="kodin-brand-svg">
+    <svg id="logo" height="35" width="700"></svg>
+</a>
+
+<script>
+    function getRandomInt (max) {
+        return Math.floor(Math.random() * max);
+    }
+
+    var kodinMe = "Kodin.me"
+    var commands = [
+        [`say "`, `Kodin"`],
+        [`echo "`, `Kodin"`],
+        [`PRINT "`, `Kodin"`],
+        ['printf', `(`, `"Kodin"`, `);`],
+        [`std`, `::`, `cout `, `<< `, `"Kodin"`, `;`],
+        [`Console`, `.`, `WriteLine`, `(`, `"Kodin"`, `);`],
+        [`print_endline `, `"Kodin"`, `;;`],
+        [`(`, `println `, `"Kodin"`, `)`],
+        [`DISPLAY `, `"Kodin"`],
+        [`console`, `.`, `log `, `"Kodin"`],
+        [`print`, `(`, `'Kodin'`, `);`],
+        [`? `, `"Kodin"`],
+        [`ShowMessage`, `(`, `'Kodin'`, `)`],
+        [`print `, `(`, `"Kodin"`, `)`],
+        [`io`, `:`, `fwrite`, `(`, `"Kodin"`, `).`],
+        [`IO`, `.`, `puts `, `"Kodin"`],
+        [`fmt`, `.`, `Println`, `(`, `"Kodin"`, `)`],
+        [`println `, `"Kodin"`],
+        [`putStrLn `, `"Kodin"`],
+        [`System`, `.`, `out`, `.`, `println`, `(`, `"Kodin"`, `);`],
+        [`console`, `.`, `log`, `(`, `'Kodin'`, `);`],
+        [`(`, `print `, `"Kodin"`, `)`],
+        [`PRINT `, `[`, `Kodin`, `]`],
+        [`disp`, `(`, `Kodin`, `)`],
+        [`puts`, `(`, `"Kodin"`, `)`],
+        [`Write`, `(`, `'Kodin'`, `)`],
+        [`<?`, `php `, `echo `, `"Kodin"`, `;`],
+        [`Write`, `-`, `Host `, `"Kodin"`],
+        [`cat`, `(`, `"Kodin"`, `)`],
+        [`puts `, `'Kodin'`],
+        [`println`, `!`, `(`, `"Kodin"`, `);`],
+        [`println`, `(`, `"Kodin"`, `)`],
+        [`'Kodin'`, ` `, `print`, `.`],
+        [`show`, `: `, `'Kodin'`, `.`]
+    ]
+
+    SVG.on(document, 'DOMContentLoaded', function() {
+        var commandParts = commands[getRandomInt(commands.length)];
+        var command = commandParts.join('')
+
+        var svg = SVG('logo');
+        var text = svg.text('').move(0, -8);
+        text.font({
+            'font-family': 'Apercu',
+            fill: '#000000',
+            'font-size': 26,
+            'font-weight': 600
+        });
+
+        var writeCommandObservable = Rx.Observable
+            .interval(150)
+            .take(command.length)
+
+        var delayObservable = Rx.Observable
+            .interval(1000)
+
+        var deleteCommandObservable = Rx.Observable
+            .concat(writeCommandObservable, delayObservable.take(1))
+            .takeLast()
+            .concatMap(() => Rx.Observable.interval(150))
+            .take(commandParts.length)
+
+        var writeLogoObservable = deleteCommandObservable
+            .takeLast()
+            .concatMap(() => Rx.Observable.interval(100))
+            .take(kodinMe.length)
+
+        writeCommandObservable.subscribe(i => {
+            text.text(command.substr(0, i + 1))
+        });
+
+        deleteCommandObservable.subscribe(i => {
+            var remainingOfCommand = commandParts.slice(0, commandParts.length - i - 1).join('')
+            text.text(remainingOfCommand)
+        })
+
+        writeLogoObservable.subscribe(i => {
+            text.text(kodinMe.substr(0, i + 1));
+        });
+    })
+</script>
+
+        </div>
+        <div class="ray-grid__cell ray-grid__cell--span-3-desktop ray-grid__cell--span-3-tablet kodin-top-nav"><a class="ray-button ray-button--secondary ray-button--compact" href="/about/">About Me</a><a class="ray-button ray-button--secondary ray-button--compact" href="/posts/">All Posts</a></div>
+    </div>
+</header>
+<main class="ray-page-container ray-page-container--justify-center">
+    <div class="ray-grid"><div class="kodin-side-nav">
+    <ul><li>
+                    <a href="/about/">
+                        About Me
+                    </a>
+                </li><li>
+                    <a href="/posts/">
+                        All Posts
+                    </a>
+                </li></ul>
+</div>
+<div class="ray-grid__cell ray-grid__cell--span-7-desktop ray-grid__cell--span-8-tablet ray-grid__cell--span-4-phone">
+            
+<article class="ray-running-text">
+    <header class="kodin-post-header">
+        <h1>
+            
+            Comparing SemVer strings in Scala
+            
+        </h1>
+
+        <div class="ray-grid">
+            <div class="ray-grid__cell ray-grid__cell--span-6-desktop ray-grid__cell--span-4-tablet ray-grid__cell--span-4-phone">
+                <time datetime="2019-08-25T18:55:25+02:00">
+                    Aug 25, 2019
+                </time>• <span>Dinko Osrecki</span></div>
+
+            <div class="kodin-post-tags ray-grid__cell ray-grid__cell--span-6-desktop ray-grid__cell--span-4-tablet ray-grid__cell--span-4-phone"><span class="ray-tag">semver</span><span class="ray-tag">scala</span><span class="ray-tag">json</span></div>
+        </div>
+    </header>
+
+    <div>
+        <p>We are given a JSON list of mobile devices, each of which has an ID, OS version and application version.</p>
+
+<div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">val</span> <span class="nv">devicesJson</span> <span class="k">=</span>
+  <span class="s">"""
+    [
+      {
+        "id": "7CD561F4-0CFD",
+        "osVersion": "12.3.1",
+        "appVersion": "1.9.4"
+      },
+      {
+        "id": "048DFEF1-65D9",
+        "osVersion": "9.0",
+        "appVersion": "2.0.1"
+      },
+      {
+        "id": "46870AA5-88FE",
+        "osVersion": "8.1",
+        "appVersion": "1.8.5"
+      },
+      {
+        "id": "5A4627A8-44D6"
+      }
+    ]
+  """</span>
+</code></pre></div></div>
+
+<p>We need to filter the list based on OS and application versions which are installed on a device. For this purpose, we
+are given the criteria which each device has to satisfy. If a device does not have a property which is defined in the
+criteria, it fails the test. We must support following operators: <code class="highlighter-rouge">=</code>, <code class="highlighter-rouge">!=</code>, <code class="highlighter-rouge">&gt;</code>, <code class="highlighter-rouge">&gt;=</code>, <code class="highlighter-rouge">&lt;</code>, and <code class="highlighter-rouge">&lt;=</code>.</p>
+
+<div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">val</span> <span class="nv">criteriaJson</span> <span class="k">=</span>
+  <span class="s">"""
+    [
+      {
+        "parameter": "appVersion",
+        "operator": "&gt;=",
+        "value": "1.0.0"
+      },
+      {
+        "parameter": "appVersion",
+        "operator": "&lt;",
+        "value": "2.0.0"
+      },
+      {
+        "parameter": "osVersion",
+        "operator": "&gt;",
+        "value": "10.0.0"
+      }
+    ]
+  """</span>
+</code></pre></div></div>
+
+<p>Ultimately we want to do the following:</p>
+
+<div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">val</span> <span class="nv">devices</span> <span class="k">=</span> <span class="nv">Json</span><span class="o">.</span><span class="py">parse</span><span class="o">(</span><span class="n">devicesJson</span><span class="o">).</span><span class="py">as</span><span class="o">[</span><span class="kt">Seq</span><span class="o">[</span><span class="kt">Device</span><span class="o">]]</span>
+<span class="k">val</span> <span class="nv">criteria</span> <span class="k">=</span> <span class="nv">Json</span><span class="o">.</span><span class="py">parse</span><span class="o">(</span><span class="n">criteriaJson</span><span class="o">).</span><span class="py">as</span><span class="o">[</span><span class="kt">Seq</span><span class="o">[</span><span class="kt">VersionCriterion</span><span class="o">]]</span>
+
+<span class="nv">devices</span><span class="o">.</span><span class="py">filter</span><span class="o">(</span><span class="n">device</span> <span class="k">=&gt;</span> <span class="nv">criteria</span><span class="o">.</span><span class="py">forall</span><span class="o">(</span><span class="nv">_</span><span class="o">.</span><span class="py">matches</span><span class="o">(</span><span class="n">device</span><span class="o">)))</span>
+<span class="c1">// List(
+//   Device(7CD561F4-0CFD,Some(Version(12,3,1)),Some(Version(1,9,4)))
+// )
+</span></code></pre></div></div>
+
+<h4 id="json-parsing">JSON parsing</h4>
+<p>First, we need to parse each device and criterion from JSON. Each parser will implement the following interface:</p>
+
+<div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">trait</span> <span class="nc">Parser</span><span class="o">[</span><span class="kt">T</span><span class="o">]</span> <span class="o">{</span>
+    <span class="k">def</span> <span class="nf">parse</span><span class="o">(</span><span class="n">input</span><span class="k">:</span> <span class="kt">String</span><span class="o">)</span><span class="k">:</span> <span class="kt">Option</span><span class="o">[</span><span class="kt">T</span><span class="o">]</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<p>Criterion <code class="highlighter-rouge">parameter</code> field is an enumeration with two values: <code class="highlighter-rouge">appVersion</code> and <code class="highlighter-rouge">osVersion</code>. It is straightforward to
+model it with <code class="highlighter-rouge">case class</code> and <code class="highlighter-rouge">object</code>s. To convert a <code class="highlighter-rouge">String</code> into <code class="highlighter-rouge">Parameter</code> we simply search for the string in
+the set of available parameters.</p>
+
+<div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">import</span> <span class="nn">play.api.libs.json.</span><span class="o">{</span><span class="nc">__</span><span class="o">,</span> <span class="nc">Reads</span><span class="o">}</span>
+
+<span class="k">sealed</span> <span class="k">case</span> <span class="k">class</span> <span class="nc">Parameter</span> <span class="nf">private</span> <span class="o">(</span><span class="n">value</span><span class="k">:</span> <span class="kt">String</span><span class="o">)</span>
+
+<span class="k">object</span> <span class="nc">Parameter</span> <span class="o">{</span>
+  <span class="k">object</span> <span class="nc">AppVersion</span> <span class="k">extends</span> <span class="nc">Parameter</span><span class="o">(</span><span class="s">"appVersion"</span><span class="o">)</span>
+  <span class="k">object</span> <span class="nc">OsVersion</span> <span class="k">extends</span> <span class="nc">Parameter</span><span class="o">(</span><span class="s">"osVersion"</span><span class="o">)</span>
+
+  <span class="k">val</span> <span class="nv">parameters</span><span class="k">:</span> <span class="kt">Set</span><span class="o">[</span><span class="kt">Parameter</span><span class="o">]</span> <span class="k">=</span> <span class="nc">Set</span><span class="o">(</span><span class="nc">AppVersion</span><span class="o">,</span> <span class="nc">OsVersion</span><span class="o">)</span>
+
+  <span class="k">implicit</span> <span class="k">val</span> <span class="nv">reads</span><span class="k">:</span> <span class="kt">Reads</span><span class="o">[</span><span class="kt">Parameter</span><span class="o">]</span> <span class="k">=</span>
+    <span class="nv">__</span><span class="o">.</span><span class="py">read</span><span class="o">[</span><span class="kt">String</span><span class="o">].</span><span class="py">map</span><span class="o">(</span><span class="nv">ParameterParser</span><span class="o">.</span><span class="py">parse</span><span class="o">).</span><span class="py">filter</span><span class="o">(</span><span class="nv">_</span><span class="o">.</span><span class="py">isDefined</span><span class="o">).</span><span class="py">map</span><span class="o">(</span><span class="nv">_</span><span class="o">.</span><span class="py">get</span><span class="o">)</span>
+<span class="o">}</span>
+
+<span class="k">object</span> <span class="nc">ParameterParser</span> <span class="k">extends</span> <span class="nc">Parser</span><span class="o">[</span><span class="kt">Parameter</span><span class="o">]</span> <span class="o">{</span>
+  <span class="k">override</span> <span class="k">def</span> <span class="nf">parse</span><span class="o">(</span><span class="n">input</span><span class="k">:</span> <span class="kt">String</span><span class="o">)</span><span class="k">:</span> <span class="kt">Option</span><span class="o">[</span><span class="kt">Parameter</span><span class="o">]</span> <span class="k">=</span>
+    <span class="nv">Parameter</span><span class="o">.</span><span class="py">parameters</span><span class="o">.</span><span class="py">find</span><span class="o">(</span><span class="nv">_</span><span class="o">.</span><span class="py">value</span> <span class="o">==</span> <span class="n">input</span><span class="o">)</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<p>If <code class="highlighter-rouge">ParameterParser</code> is not able to parse the input string, <code class="highlighter-rouge">Reads[Parameter]</code> returns <code class="highlighter-rouge">JsError</code> which will make
+<code class="highlighter-rouge">Json.parse</code> throw a <code class="highlighter-rouge">JsResultException</code>.</p>
+
+<div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">import</span> <span class="nn">play.api.libs.json._</span>
+
+<span class="nv">Json</span><span class="o">.</span><span class="py">parse</span><span class="o">(</span><span class="s">"\"appVersion\""</span><span class="o">).</span><span class="py">as</span><span class="o">[</span><span class="kt">Parameter</span><span class="o">]</span> <span class="c1">// Parameter(appVersion)
+</span><span class="nv">Json</span><span class="o">.</span><span class="py">parse</span><span class="o">(</span><span class="s">"\"invalid\""</span><span class="o">).</span><span class="py">as</span><span class="o">[</span><span class="kt">Parameter</span><span class="o">]</span> <span class="c1">// play.api.libs.json.JsResultException
+</span></code></pre></div></div>
+
+<p>Criterion <code class="highlighter-rouge">operator</code> field can be modeled in exactly the same way.</p>
+
+<div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">import</span> <span class="nn">play.api.libs.json.</span><span class="o">{</span><span class="nc">__</span><span class="o">,</span> <span class="nc">Reads</span><span class="o">}</span>
+
+<span class="k">sealed</span> <span class="k">case</span> <span class="k">class</span> <span class="nc">Operator</span> <span class="nf">private</span> <span class="o">(</span><span class="n">value</span><span class="k">:</span> <span class="kt">String</span><span class="o">)</span>
+
+<span class="k">object</span> <span class="nc">Operator</span> <span class="o">{</span>
+  <span class="k">object</span> <span class="nc">EQ</span> <span class="k">extends</span> <span class="nc">Operator</span><span class="o">(</span><span class="s">"="</span><span class="o">)</span>
+  <span class="k">object</span> <span class="nc">NE</span> <span class="k">extends</span> <span class="nc">Operator</span><span class="o">(</span><span class="s">"!="</span><span class="o">)</span>
+  <span class="k">object</span> <span class="nc">GT</span> <span class="k">extends</span> <span class="nc">Operator</span><span class="o">(</span><span class="s">"&gt;"</span><span class="o">)</span>
+  <span class="k">object</span> <span class="nc">GE</span> <span class="k">extends</span> <span class="nc">Operator</span><span class="o">(</span><span class="s">"&gt;="</span><span class="o">)</span>
+  <span class="k">object</span> <span class="nc">LT</span> <span class="k">extends</span> <span class="nc">Operator</span><span class="o">(</span><span class="s">"&lt;"</span><span class="o">)</span>
+  <span class="k">object</span> <span class="nc">LE</span> <span class="k">extends</span> <span class="nc">Operator</span><span class="o">(</span><span class="s">"&lt;="</span><span class="o">)</span>
+
+  <span class="k">val</span> <span class="nv">operators</span><span class="k">:</span> <span class="kt">Set</span><span class="o">[</span><span class="kt">Operator</span><span class="o">]</span> <span class="k">=</span> <span class="nc">Set</span><span class="o">(</span><span class="nc">EQ</span><span class="o">,</span> <span class="nc">NE</span><span class="o">,</span> <span class="nc">GT</span><span class="o">,</span> <span class="nc">GE</span><span class="o">,</span> <span class="nc">LT</span><span class="o">,</span> <span class="nc">LE</span><span class="o">)</span>
+
+  <span class="k">implicit</span> <span class="k">val</span> <span class="nv">reads</span><span class="k">:</span> <span class="kt">Reads</span><span class="o">[</span><span class="kt">Operator</span><span class="o">]</span> <span class="k">=</span>
+    <span class="nv">__</span><span class="o">.</span><span class="py">read</span><span class="o">[</span><span class="kt">String</span><span class="o">].</span><span class="py">map</span><span class="o">(</span><span class="nv">OperatorParser</span><span class="o">.</span><span class="py">parse</span><span class="o">).</span><span class="py">filter</span><span class="o">(</span><span class="nv">_</span><span class="o">.</span><span class="py">isDefined</span><span class="o">).</span><span class="py">map</span><span class="o">(</span><span class="nv">_</span><span class="o">.</span><span class="py">get</span><span class="o">)</span>
+<span class="o">}</span>
+
+<span class="k">object</span> <span class="nc">OperatorParser</span> <span class="k">extends</span> <span class="nc">Parser</span><span class="o">[</span><span class="kt">Operator</span><span class="o">]</span> <span class="o">{</span>
+  <span class="k">override</span> <span class="k">def</span> <span class="nf">parse</span><span class="o">(</span><span class="n">input</span><span class="k">:</span> <span class="kt">String</span><span class="o">)</span><span class="k">:</span> <span class="kt">Option</span><span class="o">[</span><span class="kt">Operator</span><span class="o">]</span> <span class="k">=</span>
+    <span class="nv">Operator</span><span class="o">.</span><span class="py">operators</span><span class="o">.</span><span class="py">find</span><span class="o">(</span><span class="nv">_</span><span class="o">.</span><span class="py">value</span> <span class="o">==</span> <span class="n">input</span><span class="o">)</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<p>Last piece for which we need to define a parser is the <code class="highlighter-rouge">version</code> property. I will only focus on parsing simple SemVer
+strings, where each component (<code class="highlighter-rouge">major.minor.patch</code>) can only be a number. If a component is omitted it is considered
+to be zero.</p>
+
+<div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">import</span> <span class="nn">play.api.libs.json.</span><span class="o">{</span><span class="nc">__</span><span class="o">,</span> <span class="nc">Reads</span><span class="o">}</span>
+
+<span class="k">case</span> <span class="k">class</span> <span class="nc">Version</span><span class="o">(</span><span class="n">major</span><span class="k">:</span> <span class="kt">Int</span><span class="o">,</span> <span class="n">minor</span><span class="k">:</span> <span class="kt">Int</span><span class="o">,</span> <span class="n">patch</span><span class="k">:</span> <span class="kt">Int</span><span class="o">)</span>
+
+<span class="k">object</span> <span class="nc">Version</span> <span class="o">{</span>
+  <span class="k">def</span> <span class="nf">apply</span><span class="o">(</span><span class="n">input</span><span class="k">:</span> <span class="kt">String</span><span class="o">)</span><span class="k">:</span> <span class="kt">Option</span><span class="o">[</span><span class="kt">Version</span><span class="o">]</span> <span class="k">=</span> <span class="nv">VersionParser</span><span class="o">.</span><span class="py">parse</span><span class="o">(</span><span class="n">input</span><span class="o">)</span>
+
+  <span class="k">implicit</span> <span class="k">val</span> <span class="nv">reads</span><span class="k">:</span> <span class="kt">Reads</span><span class="o">[</span><span class="kt">Version</span><span class="o">]</span> <span class="k">=</span>
+    <span class="nv">__</span><span class="o">.</span><span class="py">read</span><span class="o">[</span><span class="kt">String</span><span class="o">].</span><span class="py">map</span><span class="o">(</span><span class="nv">Version</span><span class="o">.</span><span class="py">apply</span><span class="o">).</span><span class="py">filter</span><span class="o">(</span><span class="nv">_</span><span class="o">.</span><span class="py">isDefined</span><span class="o">).</span><span class="py">map</span><span class="o">(</span><span class="nv">_</span><span class="o">.</span><span class="py">get</span><span class="o">)</span>
+<span class="o">}</span>
+
+<span class="k">object</span> <span class="nc">VersionParser</span> <span class="k">extends</span> <span class="nc">Parser</span><span class="o">[</span><span class="kt">Version</span><span class="o">]</span> <span class="o">{</span>
+  <span class="k">override</span> <span class="k">def</span> <span class="nf">parse</span><span class="o">(</span><span class="n">input</span><span class="k">:</span> <span class="kt">String</span><span class="o">)</span><span class="k">:</span> <span class="kt">Option</span><span class="o">[</span><span class="kt">Version</span><span class="o">]</span> <span class="k">=</span> <span class="o">{</span>
+    <span class="k">val</span> <span class="nv">parts</span> <span class="k">=</span> <span class="nv">input</span><span class="o">.</span><span class="py">split</span><span class="o">(</span><span class="sc">'.'</span><span class="o">).</span><span class="py">padTo</span><span class="o">(</span><span class="mi">3</span><span class="o">,</span> <span class="s">"0"</span><span class="o">).</span><span class="py">map</span><span class="o">(</span><span class="nv">_</span><span class="o">.</span><span class="py">toIntOption</span><span class="o">).</span><span class="py">flatten</span>
+
+    <span class="n">parts</span> <span class="k">match</span> <span class="o">{</span>
+      <span class="k">case</span> <span class="nc">Array</span><span class="o">(</span><span class="n">x</span><span class="o">,</span> <span class="n">y</span><span class="o">,</span> <span class="n">z</span><span class="o">)</span> <span class="k">=&gt;</span> <span class="nc">Some</span><span class="o">(</span><span class="nc">Version</span><span class="o">(</span><span class="n">x</span><span class="o">,</span> <span class="n">y</span><span class="o">,</span> <span class="n">z</span><span class="o">))</span>
+      <span class="k">case</span> <span class="k">_</span>              <span class="k">=&gt;</span> <span class="nc">None</span>
+    <span class="o">}</span>
+  <span class="o">}</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<p>Device and criterion parsers now come for free.</p>
+
+<div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">import</span> <span class="nn">play.api.libs.json.</span><span class="o">{</span><span class="nc">Json</span><span class="o">,</span> <span class="nc">Reads</span><span class="o">}</span>
+
+<span class="k">case</span> <span class="k">class</span> <span class="nc">Device</span><span class="o">(</span><span class="n">id</span><span class="k">:</span> <span class="kt">String</span><span class="o">,</span> <span class="n">osVersion</span><span class="k">:</span> <span class="kt">Option</span><span class="o">[</span><span class="kt">Version</span><span class="o">],</span> <span class="n">appVersion</span><span class="k">:</span> <span class="kt">Option</span><span class="o">[</span><span class="kt">Version</span><span class="o">])</span>
+<span class="k">object</span> <span class="nc">Device</span> <span class="o">{</span>
+  <span class="k">implicit</span> <span class="k">val</span> <span class="nv">reads</span><span class="k">:</span> <span class="kt">Reads</span><span class="o">[</span><span class="kt">Device</span><span class="o">]</span> <span class="k">=</span> <span class="nv">Json</span><span class="o">.</span><span class="py">reads</span><span class="o">[</span><span class="kt">Device</span><span class="o">]</span>
+<span class="o">}</span>
+
+<span class="k">case</span> <span class="k">class</span> <span class="nc">VersionCriterion</span><span class="o">(</span><span class="n">parameter</span><span class="k">:</span> <span class="kt">Parameter</span><span class="o">,</span> <span class="n">operator</span><span class="k">:</span> <span class="kt">Operator</span><span class="o">,</span> <span class="n">value</span><span class="k">:</span> <span class="kt">Version</span><span class="o">)</span>
+<span class="k">object</span> <span class="nc">VersionCriterion</span> <span class="o">{</span>
+  <span class="k">implicit</span> <span class="k">val</span> <span class="nv">reads</span><span class="k">:</span> <span class="kt">Reads</span><span class="o">[</span><span class="kt">VersionCriterion</span><span class="o">]</span> <span class="k">=</span> <span class="nv">Json</span><span class="o">.</span><span class="py">reads</span><span class="o">[</span><span class="kt">VersionCriterion</span><span class="o">]</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<p>Let’s try it out.</p>
+
+<div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">Json</span><span class="o">.</span><span class="py">parse</span><span class="o">(</span>
+  <span class="s">"""
+    {
+      "id": "7CD561F4-0CFD",
+      "osVersion": "12.3.1",
+      "appVersion": "1.9.4"
+    }
+  """</span><span class="o">).</span><span class="py">as</span><span class="o">[</span><span class="kt">Device</span><span class="o">]</span>
+<span class="c1">// Device(7CD561F4-0CFD,Some(Version(12,3,1)),Some(Version(1,9,4)))
+</span>
+<span class="nv">Json</span><span class="o">.</span><span class="py">parse</span><span class="o">(</span>
+  <span class="s">"""
+    {
+      "parameter": "appVersion",
+      "operator": "&gt;=",
+      "value": "1.0.0"
+    }
+  """</span><span class="o">).</span><span class="py">as</span><span class="o">[</span><span class="kt">VersionCriterion</span><span class="o">]</span>
+<span class="c1">// VersionCriterion(Parameter(appVersion),Operator(&gt;=),Version(1,0,0))
+</span></code></pre></div></div>
+
+<h4 id="comparing-versions">Comparing <code class="highlighter-rouge">Version</code>s</h4>
+<p>Currently, we can only perform equality and inequality comparisons on instances of <code class="highlighter-rouge">Version</code>.</p>
+
+<div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nc">Version</span><span class="o">(</span><span class="s">"1.0.0"</span><span class="o">)</span> <span class="o">==</span> <span class="nc">Version</span><span class="o">(</span><span class="s">"1.0.0"</span><span class="o">)</span> <span class="c1">// true
+</span><span class="nc">Version</span><span class="o">(</span><span class="s">"2.0.0"</span><span class="o">)</span> <span class="o">!=</span> <span class="nc">Version</span><span class="o">(</span><span class="s">"1.0.0"</span><span class="o">)</span> <span class="c1">// true
+</span><span class="nc">Version</span><span class="o">(</span><span class="s">"2.0.0"</span><span class="o">)</span> <span class="o">&lt;</span> <span class="nc">Version</span><span class="o">(</span><span class="s">"1.0.0"</span><span class="o">)</span>  <span class="c1">// Cannot resolve symbol &lt;
+</span></code></pre></div></div>
+
+<p>To support other operators we have to implement <code class="highlighter-rouge">Ordered</code> trait. Here, I use the <code class="highlighter-rouge">Ordering</code> instance of type
+<code class="highlighter-rouge">(Int, Int, Int)</code> which is perfect for this use case, since tuples compare in a same way as SemVer components
+(from the leftmost to the rightmost element).</p>
+
+<div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">case</span> <span class="k">class</span> <span class="nc">Version</span><span class="o">(</span><span class="n">major</span><span class="k">:</span> <span class="kt">Int</span><span class="o">,</span> <span class="n">minor</span><span class="k">:</span> <span class="kt">Int</span><span class="o">,</span> <span class="n">patch</span><span class="k">:</span> <span class="kt">Int</span><span class="o">)</span> <span class="k">extends</span> <span class="nc">Ordered</span><span class="o">[</span><span class="kt">Version</span><span class="o">]</span> <span class="o">{</span>
+  <span class="k">override</span> <span class="k">def</span> <span class="nf">compare</span><span class="o">(</span><span class="n">that</span><span class="k">:</span> <span class="kt">Version</span><span class="o">)</span><span class="k">:</span> <span class="kt">Int</span> <span class="o">=</span>
+    <span class="n">implicitly</span><span class="o">[</span><span class="kt">Ordering</span><span class="o">[(</span><span class="kt">Int</span>, <span class="kt">Int</span>, <span class="kt">Int</span><span class="o">)]].</span><span class="py">compare</span><span class="o">(</span>
+      <span class="o">(</span><span class="n">major</span><span class="o">,</span> <span class="n">minor</span><span class="o">,</span> <span class="n">patch</span><span class="o">),</span>
+      <span class="o">(</span><span class="nv">that</span><span class="o">.</span><span class="py">major</span><span class="o">,</span> <span class="nv">that</span><span class="o">.</span><span class="py">minor</span><span class="o">,</span> <span class="nv">that</span><span class="o">.</span><span class="py">patch</span><span class="o">)</span>
+    <span class="o">)</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nc">Version</span><span class="o">(</span><span class="s">"2.0.0"</span><span class="o">)</span> <span class="o">&lt;</span> <span class="nc">Version</span><span class="o">(</span><span class="s">"1.0.0"</span><span class="o">)</span>  <span class="c1">// false
+</span><span class="nc">Version</span><span class="o">(</span><span class="s">"2.0.0"</span><span class="o">)</span> <span class="o">&gt;=</span> <span class="nc">Version</span><span class="o">(</span><span class="s">"1.0.0"</span><span class="o">)</span> <span class="c1">// true
+</span></code></pre></div></div>
+
+<p>Now that everything is in place, let’s extend <code class="highlighter-rouge">VersionCriterion</code> class to match against a specific <code class="highlighter-rouge">Version</code>. Thanks
+to implementing the <code class="highlighter-rouge">Ordered</code> trait earlier, we come to an elegant solution.</p>
+
+<div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">case</span> <span class="k">class</span> <span class="nc">VersionCriterion</span><span class="o">(</span><span class="n">parameter</span><span class="k">:</span> <span class="kt">Parameter</span><span class="o">,</span> <span class="n">operator</span><span class="k">:</span> <span class="kt">Operator</span><span class="o">,</span> <span class="n">value</span><span class="k">:</span> <span class="kt">Version</span><span class="o">)</span> <span class="o">{</span>
+  <span class="k">import</span> <span class="nn">Operator._</span>
+
+  <span class="k">def</span> <span class="nf">matches</span><span class="o">(</span><span class="n">that</span><span class="k">:</span> <span class="kt">Version</span><span class="o">)</span><span class="k">:</span> <span class="kt">Boolean</span> <span class="o">=</span> <span class="n">operator</span> <span class="k">match</span> <span class="o">{</span>
+    <span class="k">case</span> <span class="nc">EQ</span> <span class="k">=&gt;</span> <span class="n">that</span> <span class="o">==</span> <span class="n">value</span>
+    <span class="k">case</span> <span class="nc">NE</span> <span class="k">=&gt;</span> <span class="n">that</span> <span class="o">!=</span> <span class="n">value</span>
+    <span class="k">case</span> <span class="nc">GT</span> <span class="k">=&gt;</span> <span class="n">that</span> <span class="o">&gt;</span> <span class="n">value</span>
+    <span class="k">case</span> <span class="nc">GE</span> <span class="k">=&gt;</span> <span class="n">that</span> <span class="o">&gt;=</span> <span class="n">value</span>
+    <span class="k">case</span> <span class="nc">LT</span> <span class="k">=&gt;</span> <span class="n">that</span> <span class="o">&lt;</span> <span class="n">value</span>
+    <span class="k">case</span> <span class="nc">LE</span> <span class="k">=&gt;</span> <span class="n">that</span> <span class="o">&lt;=</span> <span class="n">value</span>
+  <span class="o">}</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">val</span> <span class="nv">criterion</span> <span class="k">=</span> <span class="nc">VersionCriterion</span><span class="o">(</span><span class="nv">Parameter</span><span class="o">.</span><span class="py">AppVersion</span><span class="o">,</span> <span class="nv">Operator</span><span class="o">.</span><span class="py">EQ</span><span class="o">,</span> <span class="nc">Version</span><span class="o">(</span><span class="mi">1</span><span class="o">,</span> <span class="mi">0</span><span class="o">,</span> <span class="mi">0</span><span class="o">))</span>
+<span class="k">val</span> <span class="nv">version</span> <span class="k">=</span> <span class="nc">Version</span><span class="o">(</span><span class="mi">1</span><span class="o">,</span> <span class="mi">0</span><span class="o">,</span> <span class="mi">0</span><span class="o">)</span>
+
+<span class="nv">criterion</span><span class="o">.</span><span class="py">matches</span><span class="o">(</span><span class="n">version</span><span class="o">)</span> <span class="c1">// true
+</span></code></pre></div></div>
+
+<p>Finally, let’s extend <code class="highlighter-rouge">VersionCriterion</code> class one more time to match against a specific device. Based on the value
+of the <code class="highlighter-rouge">parameter</code> field, we compare against either <code class="highlighter-rouge">appVersion</code> or <code class="highlighter-rouge">osVersion</code> of the device.</p>
+
+<div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">case</span> <span class="k">class</span> <span class="nc">VersionCriterion</span><span class="o">(</span><span class="n">parameter</span><span class="k">:</span> <span class="kt">Parameter</span><span class="o">,</span> <span class="n">operator</span><span class="k">:</span> <span class="kt">Operator</span><span class="o">,</span> <span class="n">value</span><span class="k">:</span> <span class="kt">Version</span><span class="o">)</span> <span class="o">{</span>
+  <span class="k">import</span> <span class="nn">Parameter._</span>
+  <span class="k">import</span> <span class="nn">Operator._</span>
+
+  <span class="k">def</span> <span class="nf">matches</span><span class="o">(</span><span class="n">device</span><span class="k">:</span> <span class="kt">Device</span><span class="o">)</span><span class="k">:</span> <span class="kt">Boolean</span> <span class="o">=</span> <span class="o">{</span>
+    <span class="k">val</span> <span class="nv">version</span> <span class="k">=</span> <span class="n">parameter</span> <span class="k">match</span> <span class="o">{</span>
+      <span class="k">case</span> <span class="nc">AppVersion</span> <span class="k">=&gt;</span> <span class="nv">device</span><span class="o">.</span><span class="py">appVersion</span>
+      <span class="k">case</span> <span class="nc">OsVersion</span>  <span class="k">=&gt;</span> <span class="nv">device</span><span class="o">.</span><span class="py">osVersion</span>
+    <span class="o">}</span>
+
+    <span class="nv">version</span><span class="o">.</span><span class="py">exists</span><span class="o">(</span><span class="n">matches</span><span class="o">)</span>
+  <span class="o">}</span>
+
+  <span class="k">def</span> <span class="nf">matches</span><span class="o">(</span><span class="n">that</span><span class="k">:</span> <span class="kt">Version</span><span class="o">)</span><span class="k">:</span> <span class="kt">Boolean</span> <span class="o">=</span> <span class="n">operator</span> <span class="k">match</span> <span class="o">{</span>
+    <span class="k">case</span> <span class="nc">EQ</span> <span class="k">=&gt;</span> <span class="n">that</span> <span class="o">==</span> <span class="n">value</span>
+    <span class="k">case</span> <span class="nc">NE</span> <span class="k">=&gt;</span> <span class="n">that</span> <span class="o">!=</span> <span class="n">value</span>
+    <span class="k">case</span> <span class="nc">GT</span> <span class="k">=&gt;</span> <span class="n">that</span> <span class="o">&gt;</span> <span class="n">value</span>
+    <span class="k">case</span> <span class="nc">GE</span> <span class="k">=&gt;</span> <span class="n">that</span> <span class="o">&gt;=</span> <span class="n">value</span>
+    <span class="k">case</span> <span class="nc">LT</span> <span class="k">=&gt;</span> <span class="n">that</span> <span class="o">&lt;</span> <span class="n">value</span>
+    <span class="k">case</span> <span class="nc">LE</span> <span class="k">=&gt;</span> <span class="n">that</span> <span class="o">&lt;=</span> <span class="n">value</span>
+  <span class="o">}</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<p>We can now filter the devices list according to the given criteria.</p>
+
+<div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">val</span> <span class="nv">devices</span> <span class="k">=</span> <span class="nv">Json</span><span class="o">.</span><span class="py">parse</span><span class="o">(</span><span class="n">devicesJson</span><span class="o">).</span><span class="py">as</span><span class="o">[</span><span class="kt">Seq</span><span class="o">[</span><span class="kt">Device</span><span class="o">]]</span>
+<span class="k">val</span> <span class="nv">criteria</span> <span class="k">=</span> <span class="nv">Json</span><span class="o">.</span><span class="py">parse</span><span class="o">(</span><span class="n">criteriaJson</span><span class="o">).</span><span class="py">as</span><span class="o">[</span><span class="kt">Seq</span><span class="o">[</span><span class="kt">VersionCriterion</span><span class="o">]]</span>
+
+<span class="nv">devices</span><span class="o">.</span><span class="py">filter</span><span class="o">(</span><span class="n">device</span> <span class="k">=&gt;</span> <span class="nv">criteria</span><span class="o">.</span><span class="py">forall</span><span class="o">(</span><span class="nv">_</span><span class="o">.</span><span class="py">matches</span><span class="o">(</span><span class="n">device</span><span class="o">)))</span>
+</code></pre></div></div>
+
+    </div>
+</article>
+
+
+
+        </div>
+    </div>
+</main>
+
+</body>
+
+</html>
