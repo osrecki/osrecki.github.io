@@ -1,0 +1,92 @@
+<a href="{{ "/" | relative_url }}" class="kodin-brand-svg">
+    <svg id="logo" height="35" width="700"></svg>
+</a>
+
+<script>
+    function getRandomInt (max) {
+        return Math.floor(Math.random() * max);
+    }
+
+    var kodinMe = "Kodin.me"
+    var commands = [
+        [`say "`, `Kodin"`],
+        [`echo "`, `Kodin"`],
+        [`PRINT "`, `Kodin"`],
+        ['printf', `(`, `"Kodin"`, `);`],
+        [`std`, `::`, `cout `, `<< `, `"Kodin"`, `;`],
+        [`Console`, `.`, `WriteLine`, `(`, `"Kodin"`, `);`],
+        [`print_endline `, `"Kodin"`, `;;`],
+        [`(`, `println `, `"Kodin"`, `)`],
+        [`DISPLAY `, `"Kodin"`],
+        [`console`, `.`, `log `, `"Kodin"`],
+        [`print`, `(`, `'Kodin'`, `);`],
+        [`? `, `"Kodin"`],
+        [`ShowMessage`, `(`, `'Kodin'`, `)`],
+        [`print `, `(`, `"Kodin"`, `)`],
+        [`io`, `:`, `fwrite`, `(`, `"Kodin"`, `).`],
+        [`IO`, `.`, `puts `, `"Kodin"`],
+        [`fmt`, `.`, `Println`, `(`, `"Kodin"`, `)`],
+        [`println `, `"Kodin"`],
+        [`putStrLn `, `"Kodin"`],
+        [`System`, `.`, `out`, `.`, `println`, `(`, `"Kodin"`, `);`],
+        [`console`, `.`, `log`, `(`, `'Kodin'`, `);`],
+        [`(`, `print `, `"Kodin"`, `)`],
+        [`PRINT `, `[`, `Kodin`, `]`],
+        [`disp`, `(`, `Kodin`, `)`],
+        [`puts`, `(`, `"Kodin"`, `)`],
+        [`Write`, `(`, `'Kodin'`, `)`],
+        [`<?`, `php `, `echo `, `"Kodin"`, `;`],
+        [`Write`, `-`, `Host `, `"Kodin"`],
+        [`cat`, `(`, `"Kodin"`, `)`],
+        [`puts `, `'Kodin'`],
+        [`println`, `!`, `(`, `"Kodin"`, `);`],
+        [`println`, `(`, `"Kodin"`, `)`],
+        [`'Kodin'`, ` `, `print`, `.`],
+        [`show`, `: `, `'Kodin'`, `.`]
+    ]
+
+    SVG.on(document, 'DOMContentLoaded', function() {
+        var commandParts = commands[getRandomInt(commands.length)];
+        var command = commandParts.join('')
+
+        var svg = SVG('logo');
+        var text = svg.text('').move(0, -8);
+        text.font({
+            'font-family': 'Apercu',
+            fill: '#000000',
+            'font-size': 26,
+            'font-weight': 600
+        });
+
+        var writeCommandObservable = Rx.Observable
+            .interval(150)
+            .take(command.length)
+
+        var delayObservable = Rx.Observable
+            .interval(1000)
+
+        var deleteCommandObservable = Rx.Observable
+            .concat(writeCommandObservable, delayObservable.take(1))
+            .takeLast()
+            .concatMap(() => Rx.Observable.interval(150))
+            .take(commandParts.length)
+
+        var writeLogoObservable = deleteCommandObservable
+            .takeLast()
+            .concatMap(() => Rx.Observable.interval(100))
+            .take(kodinMe.length)
+
+        writeCommandObservable.subscribe(i => {
+            text.text(command.substr(0, i + 1))
+        });
+
+        deleteCommandObservable.subscribe(i => {
+            var remainingOfCommand = commandParts.slice(0, commandParts.length - i - 1).join('')
+            text.text(remainingOfCommand)
+        })
+
+        writeLogoObservable.subscribe(i => {
+            text.text(kodinMe.substr(0, i + 1));
+        });
+    })
+</script>
